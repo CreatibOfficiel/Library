@@ -50,7 +50,7 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: '_edit', methods: ['GET', 'POST'])] // PUT : to update a Category
+    #[Route('/{id}/edit', name: '_edit', methods: ['GET', 'POST'])] // POST : to edit a Category
     public function edit(Request $request, ?Category $category): Response|RedirectResponse
     {
         if (!$category) {
@@ -58,10 +58,11 @@ class CategoryController extends AbstractController
             return $this->redirectToRoute('app_category_index');
         }
 
-        $form = $this->createForm(CategoryType::class, $category, ['method' => 'PUT']);
+        $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) { // if the form is submitted and valid
+            $this->entityManager->persist($category);
             $this->entityManager->flush();
             $this->addFlash('success', 'Category updated successfully');
 
@@ -74,5 +75,24 @@ class CategoryController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}/delete', name: '_delete', methods: ['POST'])] // POST : to delete a Category
+    public function delete(Request $request, ?Category $category): Response|RedirectResponse
+    {
+        if (!$category) {
+            $this->addFlash('error', 'Category not found');
+            return $this->redirectToRoute('app_category_index');
+        }
+
+        if ($this->isCsrfTokenValid('delete' . $category->getId(), $request->request->get('_token'))) {
+            $this->entityManager->remove($category);
+            $this->entityManager->flush();
+            $this->addFlash('success', 'Category deleted successfully');
+
+            return $this->redirectToRoute('app_category_index');
+        }
+
+        $this->addFlash('error', 'Invalid CSRF Token');
+        return $this->redirectToRoute('app_category_index');
+    }
 
 }
