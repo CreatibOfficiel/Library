@@ -94,5 +94,4 @@ class CategoryController extends AbstractController
         $this->addFlash('error', 'Invalid CSRF Token');
         return $this->redirectToRoute('app_category_index');
     }
-
 }
