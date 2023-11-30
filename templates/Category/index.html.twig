@@ -11,15 +11,20 @@
         <h1 class="text-center">Administration des catégories</h1>
         <a href="{{ path('app_category_create') }}" class="btn btn-primary">Créer une catégorie</a>
 
-        <table class="table table-striped mt-4">
-            <thead>
+        {% if categories is empty %}
+        <div class="alert alert-info mt-4">
+            Aucune catégorie n'a été créée.
+        </div>
+        {% else %}
+            <table class="table table-striped mt-4">
+                <thead>
                 <tr>
                     <th>Id</th>
                     <th>Nom</th>
                     <th>Actions</th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 {% for category in categories %}
                     <tr>
                         <td>{{ category.id }}</td>
@@ -32,7 +37,8 @@
                         </td>
                     </tr>
                 {% endfor %}
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        {% endif %}
     </section>
 {% endblock %}
