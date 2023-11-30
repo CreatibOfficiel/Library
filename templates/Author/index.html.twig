@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Author
+{% endblock %}
+
+{% block body %}
+    <section
+            class="container mt-4"
+    >
+        <h1 class="text-center">Administration des auteurs</h1>
+        <a href="{{ path('app_author_create') }}" class="btn btn-primary">Ajouter un auteur</a>
+
+        {% if authors is empty %}
+            <div class="alert alert-info mt-4">
+                Aucun auteur n'a été trouvé.
+            </div>
+        {% else %}
+            <table class="table table-striped mt-4">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for author in authors %}
+                    <tr>
+                        <td>{{ author.id }}</td>
+                        <td>{{ author.firstname }}</td>
+                        <td>{{ author.lastname }}</td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="{{ path('app_author_edit', {id: author.id}) }}" class="btn btn-warning">Modifier</a>
+                                {% include 'Author/_deleteForm.html.twig' %}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </section>
+{% endblock %}
