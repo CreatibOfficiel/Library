@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Book
+{% endblock %}
+
+{% block body %}
+    <section
+            class="container mt-4"
+    >
+        <h1 class="text-center">Administration des livres</h1>
+        <a href="{{ path('app_book_create') }}" class="btn btn-primary">Ajouter un livre</a>
+
+        {% if books is empty %}
+            <div class="alert alert-info mt-4">
+                Aucun livre n'a été ajouté.
+            </div>
+        {% else %}
+            <table class="table table-striped mt-4">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Titre</th>
+                    <th>Auteur</th>
+                    <th>Catégories</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for book in books %}
+                    <tr>
+                        <td>{{ book.id }}</td>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.author.getFullName }}</td>
+                        <td>
+                            {% if book.getCategoriesArray is empty %}
+                                <span class="badge bg-secondary p-2">Aucune catégorie</span>
+                            {% else %}
+                                {% for categoryTitle in book.getCategoriesArray %}
+                                    <span class="badge bg-secondary p-2">{{ categoryTitle }}</span>
+                                {% endfor %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="{{ path('app_book_edit', {id: book.id}) }}" class="btn btn-warning">Modifier</a>
+                                {% include 'Book/_deleteForm.html.twig' %}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </section>
+{% endblock %}

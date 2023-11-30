@@ -10,7 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert; // we need this for the validation
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
-#[UniqueEntity(fields: ['isbn'], message: 'There is already a book with this ISBN')]
+#[UniqueEntity(fields: ['isbn'], message: 'There is already a Book with this ISBN')]
 class Book
 {
     #[ORM\Id]
@@ -44,7 +44,7 @@ class Book
     private Collection $categories;
 
     #[ORM\ManyToOne(inversedBy: 'books')]
-    #[ORM\JoinColumn(nullable: true)] // nullable: true because we want to be able to create a book without an author (for example, if we don't know the author yet)
+    #[ORM\JoinColumn(nullable: true)] // nullable: true because we want to be able to create a Book without an author (for example, if we don't know the author yet)
     private ?Author $author = null;
 
     public function __construct()
@@ -87,6 +87,15 @@ class Book
     public function getCategories(): Collection
     {
         return $this->categories;
+    }
+
+    public function getCategoriesArray(): array
+    {
+        $categories = [];
+        foreach ($this->categories as $category) {
+            $categories[] = $category->getTitle();
+        }
+        return $categories;
     }
 
     public function addCategory(Category $category): static

@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Modification de l'auteur : {{ author.getFullname }} - {{ parent() }}
+    Modification de l'auteur : {{ author.getFullName }} - {{ parent() }}
 {% endblock %}
 
 {% block body %}
     <section class="container">
-        <h1>Modification de l'auteur {{ author.getFullname }}</h1>
+        <h1>Modification de l'auteur {{ author.getFullName }}</h1>
         {% include 'Author/_form.html.twig' with {buttonLabel: 'Modifier'} %}
         <a href="{{ path('app_author_index') }}" class="btn btn-secondary mt-4">Retour à la liste</a>
     </section>
