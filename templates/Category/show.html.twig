@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ category.title }} - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <section>
+        <div class="container mt-5">
+            <h1>Affichage complet</h1>
+
+            <dl class="row mt-4">
+                <dt class="col-sm-3">ID</dt>
+                <dd class="col-sm-9">{{ category.id }}</dd>
+
+                <dt class="col-sm-3">Title</dt>
+                <dd class="col-sm-9">{{ category.title }}</dd>
+
+                <dt class="col-sm-3">Description</dt>
+                <dd class="col-sm-9">{{ category.description }}</dd>
+
+                <dt class="col-sm-3">Books</dt>
+                <dd class="col-sm-9">
+                    {% for book in category.books %}
+                        {{ book.title }}{% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                </dd>
+            </dl>
+
+            <a href="{{ path('app_category_index') }}" class="btn btn-secondary mt-4">Retour à la liste</a>
+        </div>
+    </section>
+{% endblock %}

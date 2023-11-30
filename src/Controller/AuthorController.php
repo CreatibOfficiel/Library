@@ -29,6 +29,19 @@ class AuthorController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}', name: '_show', methods: ['GET'])] // GET : to get a specific Author
+    public function show(?Author $author): Response
+    {
+        if (!$author) {
+            $this->addFlash('error', 'Author not found');
+            return $this->redirectToRoute('app_author_index');
+        }
+
+        return $this->render('Author/show.html.twig', [
+            'author' => $author
+        ]);
+    }
+
     #[Route('/create', name: '_create')]
     public function create(Request $request): Response
     {

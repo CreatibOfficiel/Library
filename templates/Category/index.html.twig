@@ -31,6 +31,7 @@
                         <td>{{ category.title }}</td>
                         <td>
                             <div class="btn-group">
+                                <a class="btn btn-primary" href="{{ path('app_category_show', {id: category.id}) }}">Voir</a>
                                 <a href="{{ path('app_category_edit', {id: category.id}) }}" class="btn btn-warning">Modifier</a>
                                 {% include 'Category/_deleteForm.html.twig' %}
                             </div>

@@ -29,6 +29,19 @@ class BookController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}', name: '_show', methods: ['GET'])] // GET : to get a specific Book
+    public function show(?Book $book): Response
+    {
+        if (!$book) {
+            $this->addFlash('error', 'Book not found');
+            return $this->redirectToRoute('app_book_index');
+        }
+
+        return $this->render('Book/show.html.twig', [
+            'book' => $book
+        ]);
+    }
+
     #[Route('/create', name: '_create', methods: ['GET', 'POST'])]
     public function create(Request $request): Response|RedirectResponse
     {

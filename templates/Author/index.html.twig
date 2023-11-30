@@ -33,6 +33,7 @@
                         <td>{{ author.lastname }}</td>
                         <td>
                             <div class="btn-group">
+                                <a class="btn btn-primary" href="{{ path('app_author_show', {id: author.id}) }}">Voir</a>
                                 <a href="{{ path('app_author_edit', {id: author.id}) }}" class="btn btn-warning">Modifier</a>
                                 {% include 'Author/_deleteForm.html.twig' %}
                             </div>

@@ -43,6 +43,7 @@
                         </td>
                         <td>
                             <div class="btn-group">
+                                <a class="btn btn-primary" href="{{ path('app_book_show', {id: book.id}) }}">Voir</a>
                                 <a href="{{ path('app_book_edit', {id: book.id}) }}" class="btn btn-warning">Modifier</a>
                                 {% include 'Book/_deleteForm.html.twig' %}
                             </div>

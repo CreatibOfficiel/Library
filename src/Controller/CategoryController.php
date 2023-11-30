@@ -29,6 +29,19 @@ class CategoryController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}', name: '_show', methods: ['GET'])] // GET : to get a specific Category
+    public function show(?Category $category): Response
+    {
+        if (!$category) {
+            $this->addFlash('error', 'Category not found');
+            return $this->redirectToRoute('app_category_index');
+        }
+
+        return $this->render('Category/show.html.twig', [
+            'category' => $category
+        ]);
+    }
+
     #[Route('/create', name: '_create', methods: ['GET', 'POST'])] // POST : to create a new Category
     public function create(Request $request): Response|RedirectResponse
     {
