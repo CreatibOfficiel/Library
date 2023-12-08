@@ -12,15 +12,29 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Class for Category CRUD
+ * @package App\Controller
+ * @Route("/categories", name="app_category")
+ */
 #[Route('/categories', name: 'app_category')]
 class CategoryController extends AbstractController
 {
+    /**
+     * CategoryController constructor.
+     * @param CategoryRepository $categoryRepository
+     * @param EntityManagerInterface $entityManager
+     */
     public function __construct(
         private CategoryRepository $categoryRepository,
         private EntityManagerInterface $entityManager
     )
     {}
 
+    /**
+     * @Route('', name: '_index') : to get all Categories
+     * @return Response
+     */
     #[Route('', name: '_index', methods: ['GET'])] // GET : to get all categories
     public function index(): Response
     {
@@ -29,6 +43,11 @@ class CategoryController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route('/{id}', name: '_show', methods: ['GET']) : to get a specific Category
+     * @param Category|null $category
+     * @return Response
+     */
     #[Route('/{id}', name: '_show', methods: ['GET'])] // GET : to get a specific Category
     public function show(?Category $category): Response
     {
@@ -42,6 +61,11 @@ class CategoryController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route('/create', name: '_create', methods: ['GET', 'POST']) : to create a new Category
+     * @param Request $request
+     * @return Response|RedirectResponse
+     */
     #[Route('/create', name: '_create', methods: ['GET', 'POST'])] // POST : to create a new Category
     public function create(Request $request): Response|RedirectResponse
     {
@@ -63,6 +87,12 @@ class CategoryController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route('/{id}/edit', name: '_edit', methods: ['GET', 'POST']) : to edit a Category
+     * @param Request $request
+     * @param Category|null $category
+     * @return Response|RedirectResponse
+     */
     #[Route('/{id}/edit', name: '_edit', methods: ['GET', 'POST'])] // POST : to edit a Category
     public function edit(Request $request, ?Category $category): Response|RedirectResponse
     {
@@ -88,6 +118,12 @@ class CategoryController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route('/{id}/delete', name: '_delete', methods: ['POST']) : to delete a Category
+     * @param Request $request
+     * @param Category|null $category
+     * @return Response|RedirectResponse
+     */
     #[Route('/{id}/delete', name: '_delete', methods: ['POST'])] // POST : to delete a Category
     public function delete(Request $request, ?Category $category): Response|RedirectResponse
     {

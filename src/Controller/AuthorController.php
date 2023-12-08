@@ -12,15 +12,29 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Class for Author CRUD
+ * @package App\Controller
+ * @Route("/authors", name="app_author")
+ */
 #[Route('/authors', name: 'app_author')]
 class AuthorController extends AbstractController
 {
+    /**
+     * AuthorController constructor.
+     * @param AuthorRepository $authorRepository
+     * @param EntityManagerInterface $entityManager
+     */
     public function __construct(
         private AuthorRepository $authorRepository,
         private EntityManagerInterface $entityManager
     )
     {}
 
+    /**
+     * @Route('', name: '_index') : to get all Authors
+     * @return Response
+     */
     #[Route('', name: '_index')]
     public function index(): Response
     {
@@ -29,6 +43,11 @@ class AuthorController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route('/{id}', name: '_show', methods: ['GET']) : to get a specific Author
+     * @param Author|null $author
+     * @return Response
+     */
     #[Route('/{id}', name: '_show', methods: ['GET'])] // GET : to get a specific Author
     public function show(?Author $author): Response
     {
@@ -42,6 +61,11 @@ class AuthorController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route('/create', name: '_create') : to create a Author
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/create', name: '_create')]
     public function create(Request $request): Response
     {
@@ -63,6 +87,12 @@ class AuthorController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route('/{id}/edit', name: '_edit') : to edit a Author
+     * @param Request $request
+     * @param Author|null $author
+     * @return Response
+     */
     #[Route('/{id}/edit', name: '_edit')]
     public function edit(Request $request, ?Author $author): Response
     {
@@ -88,6 +118,12 @@ class AuthorController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route('/{id}/delete', name: '_delete', methods: ['POST']) : to delete a Author
+     * @param Request $request
+     * @param Author|null $author
+     * @return Response|RedirectResponse
+     */
     #[Route('/{id}/delete', name: '_delete', methods: ['POST'])] // POST : to delete a Author
     public function delete(Request $request, ?Author $author): Response|RedirectResponse
     {

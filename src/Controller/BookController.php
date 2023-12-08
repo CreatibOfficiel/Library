@@ -12,15 +12,29 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Class for Book CRUD
+ * @package App\Controller
+ * @Route("/books", name="app_book")
+ */
 #[Route('/books', name: 'app_book')]
 class BookController extends AbstractController
 {
+    /**
+     * BookController constructor.
+     * @param BookRepository $bookRepository
+     * @param EntityManagerInterface $entityManager
+     */
     public function __construct(
         private BookRepository $bookRepository,
         private EntityManagerInterface $entityManager
     )
     {}
 
+    /**
+     * @Route('', name: '_index') : to get all Books
+     * @return Response
+     */
     #[Route('', name: '_index', methods: ['GET'])]
     public function index(): Response
     {
@@ -29,6 +43,11 @@ class BookController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route('/{id}', name: '_show', methods: ['GET']) : to get a specific Book
+     * @param Book|null $book
+     * @return Response
+     */
     #[Route('/{id}', name: '_show', methods: ['GET'])] // GET : to get a specific Book
     public function show(?Book $book): Response
     {
@@ -42,6 +61,11 @@ class BookController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route('/create', name: '_create', methods: ['GET', 'POST']) : to create a new Book
+     * @param Request $request
+     * @return Response|RedirectResponse
+     */
     #[Route('/create', name: '_create', methods: ['GET', 'POST'])]
     public function create(Request $request): Response|RedirectResponse
     {
@@ -63,6 +87,12 @@ class BookController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route('/{id}/edit', name: '_edit', methods: ['GET', 'POST']) : to edit a Book
+     * @param Request $request
+     * @param Book|null $book
+     * @return Response|RedirectResponse
+     */
     #[Route('/{id}/edit', name: '_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, ?Book $book): Response|RedirectResponse
     {
@@ -88,6 +118,12 @@ class BookController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route('/{id}/delete', name: '_delete', methods: ['POST']) : to delete a Book
+     * @param Request $request
+     * @param Book|null $book
+     * @return RedirectResponse
+     */
     #[Route('/{id}/delete', name: '_delete', methods: ['POST'])]
     public function delete(Request $request, ?Book $book): RedirectResponse
     {

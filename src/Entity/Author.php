@@ -73,6 +73,10 @@ class Author
         return $this;
     }
 
+    /**
+     * Get the value of fullname
+     * @return string
+     */
     public function getFullName(): string
     {
         return $this->firstname . ' ' . $this->lastname;
