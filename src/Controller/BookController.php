@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Book;
+use App\Entity\Comment;
 use App\Form\BookType;
+use App\Form\CommentType;
 use App\Repository\BookRepository;
+use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -23,18 +26,14 @@ class BookController extends AbstractController
     /**
      * BookController constructor.
      * @param BookRepository $bookRepository
-     * @param EntityManagerInterface $entityManager
      */
     public function __construct(
-        private BookRepository $bookRepository,
-        private EntityManagerInterface $entityManager
+        private readonly BookRepository $bookRepository,
+        private readonly EntityManagerInterface $entityManager,
+        private CommentRepository $commentRepository
     )
     {}
 
-    /**
-     * @Route('', name: '_index') : to get all Books
-     * @return Response
-     */
     #[Route('', name: '_index', methods: ['GET'])]
     public function index(): Response
     {
@@ -43,29 +42,37 @@ class BookController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route('/{id}', name: '_show', methods: ['GET']) : to get a specific Book
-     * @param Book|null $book
-     * @return Response
-     */
-    #[Route('/{id}', name: '_show', methods: ['GET'])] // GET : to get a specific Book
-    public function show(?Book $book): Response
+    #[Route('/{id}', name: '_show', methods: ['GET', 'POST'])]
+    public function show(?Book $book, Request $request): Response
     {
         if (!$book) {
             $this->addFlash('error', 'Book not found');
             return $this->redirectToRoute('app_book_index');
         }
 
+        $comments = $this->commentRepository->findByBook($book->getId());
+        $comment = new Comment();
+
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setBook($book)->setAuthor($this->getUser());
+
+            $this->entityManager->persist($comment);
+            $this->entityManager->flush();
+            $this->addFlash('success', 'Your comment has been added');
+
+            return $this->redirectToRoute('app_book_show', ['id' => $book->getId()]);
+        }
+
         return $this->render('Book/show.html.twig', [
-            'book' => $book
+            'book' => $book,
+            'comments' => $comments,
+            'form' => $form
         ]);
     }
 
-    /**
-     * @Route('/create', name: '_create', methods: ['GET', 'POST']) : to create a new Book
-     * @param Request $request
-     * @return Response|RedirectResponse
-     */
     #[Route('/create', name: '_create', methods: ['GET', 'POST'])]
     public function create(Request $request): Response|RedirectResponse
     {
@@ -87,12 +94,6 @@ class BookController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route('/{id}/edit', name: '_edit', methods: ['GET', 'POST']) : to edit a Book
-     * @param Request $request
-     * @param Book|null $book
-     * @return Response|RedirectResponse
-     */
     #[Route('/{id}/edit', name: '_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, ?Book $book): Response|RedirectResponse
     {
@@ -118,12 +119,6 @@ class BookController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route('/{id}/delete', name: '_delete', methods: ['POST']) : to delete a Book
-     * @param Request $request
-     * @param Book|null $book
-     * @return RedirectResponse
-     */
     #[Route('/{id}/delete', name: '_delete', methods: ['POST'])]
     public function delete(Request $request, ?Book $book): RedirectResponse
     {

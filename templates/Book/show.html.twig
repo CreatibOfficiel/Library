@@ -30,4 +30,35 @@
             <a href="{{ path('app_book_index') }}" class="btn btn-secondary mt-4">Retour à la liste</a>
         </div>
     </section>
+
+    <section class="container">
+        <div class="comments card p-3 mt-4">
+            <h2>Ajouter un commentaire</h2>
+            {% if app.user %}
+                {% include "Book/Comment/_formComment.html.twig" with {
+                    button_label: 'Poster'} %}
+            {% else %}
+                <div class="alert alert-info mt-2" role="alert">
+                    <p>
+                        <b>Information :</b>
+                        <br/>
+                        Vous devez
+                        <a href="{{ path('app_login') }}">être connecté</a>
+                        pour laisser un commentaire.
+                    </p>
+                </div>
+            {% endif %}
+        </div>
+
+        {% if comments|length > 0 %}
+            <div class="show-comments mt-4">
+                <h2>Commentaires: </h2>
+                <div class="comments-list">
+                    {% for comment in comments %}
+                        {% include "Book/Comment/_comment.html.twig" %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </section>
 {% endblock %}

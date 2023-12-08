@@ -1,0 +1,18 @@
+{{ form_start(form, {'attr': {'class': 'mt-4'}}) }}
+    <div class="form-group">
+        {{ form_row(form.note, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_widget(form.title, {'attr': {'class': 'form-control mt-4'}}) }}
+        {{ form_errors(form.title)}}
+    </div>
+    <div class="form-group">
+        {{ form_widget(form.content, {'attr': {'class': 'form-control mt-4 mb-4', 'rows': 5}}) }}
+    </div>
+    <div class="form-group form-check">
+        {{ form_row(form.rgpd, {'attr': {'class': 'form-check-input'}}) }}
+    </div>
+    <button type="submit" class="btn btn-primary">
+        {{ button_label|default('Save')}}
+    </button>
+{{ form_end(form) }}

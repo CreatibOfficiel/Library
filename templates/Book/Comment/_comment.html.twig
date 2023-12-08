@@ -1,0 +1,16 @@
+<div class="comment-item border p-3 mb-3">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <h5 class="comment-title">{{ comment.title }}</h5>
+        <em class="comment-author text-muted">{{ comment.author.getFullName() }}</em>
+    </div>
+    <div class="ratings mb-2">
+        {% for number in range(1, 5) %}
+            {% if number <= comment.note %}
+                <i class="fas fa-star rating-color"></i>
+            {% else %}
+                <i class="far fa-star rating-color"></i>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <p class="card-text">{{ comment.content }}</p>
+</div>
