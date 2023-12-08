@@ -31,23 +31,14 @@ class AuthorController extends AbstractController
     )
     {}
 
-    /**
-     * @Route('', name: '_index') : to get all Authors
-     * @return Response
-     */
     #[Route('', name: '_index')]
     public function index(): Response
     {
-        return $this->render('author/index.html.twig', [
+        return $this->render('Author/index.html.twig', [
             'authors' => $this->authorRepository->findAll()
         ]);
     }
 
-    /**
-     * @Route('/{id}', name: '_show', methods: ['GET']) : to get a specific Author
-     * @param Author|null $author
-     * @return Response
-     */
     #[Route('/{id}', name: '_show', methods: ['GET'])] // GET : to get a specific Author
     public function show(?Author $author): Response
     {
@@ -61,11 +52,6 @@ class AuthorController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route('/create', name: '_create') : to create a Author
-     * @param Request $request
-     * @return Response
-     */
     #[Route('/create', name: '_create')]
     public function create(Request $request): Response
     {
@@ -87,12 +73,6 @@ class AuthorController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route('/{id}/edit', name: '_edit') : to edit a Author
-     * @param Request $request
-     * @param Author|null $author
-     * @return Response
-     */
     #[Route('/{id}/edit', name: '_edit')]
     public function edit(Request $request, ?Author $author): Response
     {
@@ -118,12 +98,6 @@ class AuthorController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route('/{id}/delete', name: '_delete', methods: ['POST']) : to delete a Author
-     * @param Request $request
-     * @param Author|null $author
-     * @return Response|RedirectResponse
-     */
     #[Route('/{id}/delete', name: '_delete', methods: ['POST'])] // POST : to delete a Author
     public function delete(Request $request, ?Author $author): Response|RedirectResponse
     {
