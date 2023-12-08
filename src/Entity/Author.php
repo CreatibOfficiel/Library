@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert; // we need this for the validation
 
 #[ORM\Entity(repositoryClass: AuthorRepository::class)]
+#[ORM\Table(name: '`author`')]
 class Author
 {
     #[ORM\Id]

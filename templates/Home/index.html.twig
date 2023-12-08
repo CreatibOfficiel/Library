@@ -1,13 +1,23 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Ma bibliothèque
+    {{ parent() }} - Accueil
 {% endblock %}
 
 {% block body %}
+    <section class="bg-primary text-white text-center py-5">
+        <h1>Ma Bibliothèque</h1>
+        <p class="lead">Bienvenue sur ma bibliothèque en ligne</p>
+    </section>
 
-<section class="container mt-4">
-    <h1 class="text-center">Ma bibliothèque</h1>
-    <p>Bienvenue sur ma bibliothèque</p>
-</section>
+    <section class="container mt-4">
+        {% if app.user %}
+            <div class="alert alert-info">
+                <p>Vous êtes connecté en tant que {{ app.user.email }}</p>
+                <a href="{{ path('app_logout') }}" class="alert-link">Déconnexion</a>
+            </div>
+        {% else %}
+            <a href="{{ path('app_login') }}" class="btn btn-primary">Connexion</a>
+        {% endif %}
+    </section>
 {% endblock %}

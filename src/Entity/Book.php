@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert; // we need this for the validation
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
+#[ORM\Table(name: '`book`')]
 #[UniqueEntity(fields: ['isbn'], message: 'There is already a Book with this ISBN')]
 class Book
 {

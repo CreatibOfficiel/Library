@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Inscription
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid mt-4">
+        {{ form_start(form, {attr: {class: 'p-3 form card w-50 mx-auto'}}) }}
+        <h1 class="title text-center">S'inscrire</h1>
+
+        {{ form_row(form.email, {label: 'Email', attr: {class: 'form-control'}, label_attr: {class: 'form-label mt-2'}}) }}
+        {{ form_row(form.lastname, {label: 'Nom', attr: {class: 'form-control'}, label_attr: {class: 'form-label mt-2'}}) }}
+        {{ form_row(form.firstname, {label: 'Prénom', attr: {class: 'form-control'}, label_attr: {class: 'form-label mt-2'}}) }}
+        {{ form_row(form.country, {label: 'Pays', attr: {class: 'form-control'}, label_attr: {class: 'form-label mt-2'}}) }}
+        {{ form_row(form.password.first, {label: 'Mot de passe', attr: {class: 'form-control'}, label_attr: {class: 'form-label mt-2'}}) }}
+        {{ form_row(form.password.second, {label: 'Confirmer le mot de passe', attr: {class: 'form-control'}, label_attr: {class: 'form-label mt-2'}}) }}
+
+        <div class="d-flex flex-column align-items-center mt-4 text-center">
+            <button type="submit" class="btn btn-inline btn-primary">S'incrire</button>
+            <span class="mt-2">Déjà inscrit ? <a href="{{ path('app_login') }}">Se connecter</a></span>
+        </div>
+
+        {{ form_row(form._token) }}
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
